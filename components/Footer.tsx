@@ -27,43 +27,6 @@ export default function Footer() {
     <footer>
       <div className="wrap">
         <div className="foot-top">
-          <div className="foot-brand">
-            <Link className="brand" href="/">
-              <NovaMark />
-              <span>CoreNovaIT</span>
-            </Link>
-            <p>
-              Build. Design. Grow. Automate. A white-label development,
-              design, and AI-integration partner for agencies that don&apos;t
-              build in-house.
-            </p>
-          </div>
-
-          <div className="foot-col">
-            <h4>Services</h4>
-            <ul>
-              <li><Link href="/services">Web Development</Link></li>
-              <li><Link href="/services">App Development</Link></li>
-              <li><Link href="/services">Graphic Design</Link></li>
-              <li><Link href="/services">Motion Graphics</Link></li>
-              <li><Link href="/services">Digital Marketing</Link></li>
-              <li><Link href="/services">Social Media</Link></li>
-              <li><Link href="/ai">AI Integrations</Link></li>
-            </ul>
-          </div>
-
-          <div className="foot-col">
-            <h4>Platforms</h4>
-            <ul>
-              <li><Link href="/platforms">Shopify</Link></li>
-              <li><Link href="/platforms">Wix</Link></li>
-              <li><Link href="/platforms">Squarespace</Link></li>
-              <li><Link href="/platforms">WordPress</Link></li>
-              <li><Link href="/platforms">WooCommerce</Link></li>
-              <li><Link href="/platforms">Custom Development</Link></li>
-            </ul>
-          </div>
-
           <div className="foot-col">
             <h4>Company</h4>
             <ul>
@@ -71,14 +34,43 @@ export default function Footer() {
               <li><Link href="/partners">For Partners</Link></li>
               <li><Link href="/faq">FAQ</Link></li>
               <li><Link href="/contact">Start a Project</Link></li>
-              <li><a href={`mailto:${CONTACT_EMAIL}`}>Email Us</a></li>
+            </ul>
+          </div>
+
+          <div className="foot-col">
+            <h4>Services</h4>
+            <ul>
+              <li><Link href="/services">Web Development</Link></li>
+              <li><Link href="/services">Graphic Design</Link></li>
+              <li><Link href="/services">Digital Marketing</Link></li>
+              <li><Link href="/ai">AI Integrations</Link></li>
+              <li><Link href="/platforms">Platforms</Link></li>
+            </ul>
+          </div>
+
+          <div className="foot-col">
+            <h4>Connect</h4>
+            <ul>
+              <li><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
+              <li><Link href="/contact">Start a Conversation</Link></li>
             </ul>
           </div>
         </div>
 
+        <div className="foot-wordmark">
+          <Link className="brand" href="/">
+            <NovaMark />
+            <span>CoreNovaIT</span>
+          </Link>
+          <p>Build. Design. Grow. Automate. A white-label partner for agencies that don&apos;t build in-house.</p>
+        </div>
+
         <div className="foot-bottom">
-          <span>© {new Date().getFullYear()} CoreNovaIT — built white-label, always.</span>
-          <span>Partner rates, NDA, and escalation paths available on request.</span>
+          <span>© {new Date().getFullYear()} CoreNovaIT. All rights reserved.</span>
+          <div className="foot-legal">
+            <span>Privacy Policy</span>
+            <span>Terms of Service</span>
+          </div>
         </div>
       </div>
     </footer>

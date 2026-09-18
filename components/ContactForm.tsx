@@ -21,10 +21,10 @@ type Status = "idle" | "submitting" | "success" | "error";
  * Posts to /api/contact (app/api/contact/route.ts), which saves the
  * submission to Supabase and emails a notification via Resend.
  */
-export default function ContactForm() {
+export default function ContactForm({ initialEmail = "" }: { initialEmail?: string }) {
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initialEmail);
   const [service, setService] = useState(SERVICES[0]);
   const [details, setDetails] = useState("");
   const [status, setStatus] = useState<Status>("idle");

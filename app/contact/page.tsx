@@ -3,7 +3,13 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = { title: "Start a Project" };
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string }>;
+}) {
+  const { email } = await searchParams;
+
   return (
     <section className="sec">
       <div className="wrap">
@@ -15,7 +21,7 @@ export default function ContactPage() {
         </p>
 
         <div style={{ marginTop: 40 }}>
-          <ContactForm />
+          <ContactForm initialEmail={email ?? ""} />
         </div>
       </div>
     </section>

@@ -8,21 +8,22 @@ single-file HTML artifact into a Next.js 14 App Router project.
 ```
 app/
   layout.tsx          Root layout — fonts, <Header>, <Marquee>, <Footer>
-  globals.css          All design tokens & styles (light/dark via prefers-color-scheme)
-  page.tsx              Home
+  globals.css          All design tokens & styles (dark by default, light via [data-theme])
+  page.tsx              Home — assembles the components/home/* sections below
   services/page.tsx      Services
   platforms/page.tsx     Platforms
   process/page.tsx       Process (the 7-step workflow)
   ai/page.tsx             AI Integrations
   partners/page.tsx      For Agency Partners
   faq/page.tsx            FAQ
-  contact/page.tsx        Contact (renders <ContactForm>)
+  contact/page.tsx        Contact (renders <ContactForm>, reads ?email= to prefill)
 components/
-  Header.tsx        Sticky nav + mobile menu (client component)
+  Header.tsx        Sticky pill nav + theme toggle + mobile menu (client component)
   Marquee.tsx        Scrolling services strip
-  Footer.tsx          Footer with sitemap + mailto link
-  NovaCanvas.tsx    The hero's animated nova/orbit graphic (client component, canvas)
+  Footer.tsx          Always-light footer with sitemap + wordmark
+  Reveal.tsx        Shared scroll-triggered fade/slide-up wrapper (IntersectionObserver)
   ContactForm.tsx  Controlled form that POSTs to /api/contact (client component)
+  home/              Homepage sections (hero, services, portfolio carousel, etc.)
   api/contact/route.ts   Saves submissions to Supabase, emails via Resend
 ```
 
@@ -66,9 +67,13 @@ Then open http://localhost:3000.
   confirmed the new form works. (The FTP-deploy GitHub Action that
   used to accompany them has already been removed — Hostinger builds
   and runs this app directly from the repo.)
-- **Nova canvas animation**: ported 1:1 into `NovaCanvas.tsx` as a
-  client component with a `useEffect`/`requestAnimationFrame` loop,
-  cleaned up on unmount. Respects `prefers-reduced-motion`.
+- **Homepage sections** (`components/home/`): Hero (with a CSS-only
+  auto-scrolling mockup marquee, no photography), an animated services
+  showcase, a center-focus portfolio carousel, a "why choose us" grid,
+  a scroll-progressive testimonial quote, a stats section, a process
+  teaser, a homepage FAQ, and a final email-capture CTA that routes to
+  `/contact?email=…` to prefill the real contact form. All respect
+  `prefers-reduced-motion`.
 
 ## Things you'll likely want to change
 
