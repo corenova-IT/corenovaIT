@@ -15,8 +15,9 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    name: "E-Commerce Storefront",
-    category: "Shopify · Retail",
+    name: "Web Development",
+    // non-breaking space before each "·" keeps a wrapped line from starting with one
+    category: "Shopify · Wix · Squarespace · WordPress · WooCommerce · Custom Development",
     tint: "#d63838",
     href: "/platforms",
     image: "/portfolio/ecommerce-storefront-mockup.jpg",

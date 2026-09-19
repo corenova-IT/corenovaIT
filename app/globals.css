@@ -1676,6 +1676,15 @@ footer {
   color: rgba(255, 255, 255, 0.65);
   font-size: 13px;
 }
+/* long subtitles (e.g. the platform list) stay to two even lines on common
+   phone widths instead of three, so the caption doesn't swallow the preview */
+@media (max-width: 520px) {
+  .portfolio-caption span {
+    font-size: 11px;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+}
 .portfolio-caption-link {
   flex: none;
   width: 38px;
