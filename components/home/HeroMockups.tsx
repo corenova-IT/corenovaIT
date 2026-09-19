@@ -1,7 +1,7 @@
 const COL_A = [
-  { tint: "#ff8a44", label: "Shopify build" },
+  { tint: "#d63838", label: "Shopify build" },
   { tint: "#4a90d9", label: "SaaS dashboard" },
-  { tint: "#ff8a44", label: "Shopify build" },
+  { tint: "#d63838", label: "Shopify build" },
   { tint: "#4a90d9", label: "SaaS dashboard" },
 ];
 

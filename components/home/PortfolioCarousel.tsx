@@ -8,7 +8,7 @@ const PROJECTS = [
   {
     name: "E-Commerce Storefront",
     category: "Shopify · Retail",
-    tint: "#ff8a44",
+    tint: "#d63838",
     href: "/platforms",
   },
   {

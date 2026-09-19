@@ -1,7 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <rect width="32" height="32" rx="8" fill="#0b0d12" />
-  <g transform="translate(16 16)" stroke="#ff8a44" stroke-width="1.8" stroke-linecap="round">
-    <path d="M0 -10v7M0 3v7M-10 0h7M3 0h7M-7.07 -7.07l4.95 4.95M2.12 2.12l4.95 4.95M7.07 -7.07l-4.95 4.95M-2.12 2.12l-4.95 4.95" />
-  </g>
-  <circle cx="16" cy="16" r="2.8" fill="#ff8a44" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<style>
+  .ink{fill:none;stroke:#111;stroke-width:3.4;stroke-linecap:round}
+  .dot{fill:#111}
+  @media (prefers-color-scheme: dark){.ink{stroke:#fff}.dot{fill:#fff}}
+</style>
+<defs>
+  <radialGradient id="s" cx="0.36" cy="0.34" r="0.8" fx="0.3" fy="0.28">
+    <stop offset="0" stop-color="#E0424C"/>
+    <stop offset="0.45" stop-color="#C62228"/>
+    <stop offset="1" stop-color="#8A1C1B"/>
+  </radialGradient>
+</defs>
+<circle cx="32" cy="32" r="15.5" fill="url(#s)"/>
+<ellipse cx="26.5" cy="24.5" rx="4.2" ry="2.6" transform="rotate(-35 26.5 24.5)" fill="#fff" opacity="0.5"/>
+<ellipse class="ink" cx="32" cy="32" rx="28.5" ry="10.5" transform="rotate(-24 32 32)"/>
+<ellipse class="ink" cx="32" cy="32" rx="28.5" ry="10.5" transform="rotate(58 32 32)"/>
+<circle class="dot" cx="8.5" cy="42" r="3.1"/>
+<circle class="dot" cx="55.5" cy="22" r="3.1"/>
 </svg>

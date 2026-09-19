@@ -80,9 +80,18 @@ Then open http://localhost:3000.
 - Contact email is `contact@corenovait.com.au`, set as `CONTACT_EMAIL` /
   `TO` constants in `components/Footer.tsx` and
   `components/ContactForm.tsx`.
-- `app/icon.svg` is the nova-mark favicon (Next.js serves it
-  automatically, no code needed). Replace it with a real brand
-  favicon whenever one exists.
+- **Brand assets** live in `public/brand/`: `logo-full-{black,white}.svg`
+  and `logo-icon-{black,white}.svg` (traced from the originals in
+  `public/brand/source/`, so they scale crisply). The header shows the
+  white logo on the dark theme and the black one on light (CSS swaps
+  them); the footer is always a light surface, so it uses the black one.
+  The favicon set is `app/icon.svg` (flips its orbit colour for dark
+  browser tabs), `app/favicon.ico`, and `app/apple-icon.png` — Next.js
+  serves all three automatically.
+- **Brand red** is `#AF2524`, sampled from the flat "IT" letters in the
+  logo. `--accent` (fills) and `--accent-text` (red text/icons/focus
+  rings) in `app/globals.css` are lighter shades of it on the dark theme
+  so they meet contrast requirements; the light theme uses it as-is.
 - The Resend `from` address (`onboarding@resend.dev` in the API route)
   only works reliably once you verify a sending domain in Resend — until
   then, Resend restricts sending to the email address on your own

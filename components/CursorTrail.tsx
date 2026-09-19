@@ -38,8 +38,8 @@ export default function CursorTrail() {
     window.addEventListener("resize", resize);
 
     const accentColor = () =>
-      getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() ||
-      "#ff8a44";
+      getComputedStyle(document.documentElement).getPropertyValue("--accent-text").trim() ||
+      "#db4d4d";
 
     let points: Point[] = [];
     let lastX = 0;

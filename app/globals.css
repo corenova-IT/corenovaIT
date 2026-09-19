@@ -14,10 +14,15 @@
   --ink-soft: #b9bdc9;
   --steel: #8b93a4;
   --line: #262a35;
-  --accent: #ff8a44;
-  --accent-soft: #ff8a441f;
-  --accent-ink: #1a0f08;
-  --header-surface: rgba(18, 20, 27, 0.82);
+  /* Brand red sampled from the logo's flat "IT" letters (#AF2524), shifted
+     lighter on the dark theme so it stays legible: --accent is for fills
+     (white text on it is 4.7:1), --accent-text for red text/icons/focus
+     rings drawn straight on the page background (4.8:1). */
+  --accent: #d63838;
+  --accent-text: #db4d4d;
+  --accent-soft: #d6383824;
+  --accent-ink: #ffffff;
+  --header-surface: rgba(18, 20, 27, 0.58);
   --header-border: rgba(255, 255, 255, 0.08);
   --header-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   --header-cta-bg: #f6f5ef;
@@ -26,7 +31,7 @@
   --footer-ink: #15171d;
   --footer-muted: #55596a;
   --footer-line: rgba(21, 23, 29, 0.12);
-  --footer-accent: #c1531c;
+  --footer-accent: #af2524;
 }
 
 :root[data-theme="light"] {
@@ -37,10 +42,11 @@
   --ink-soft: #4a4d57;
   --steel: #6c7488;
   --line: #ddd5c4;
-  --accent: #c1531c;
-  --accent-soft: #c1531c1a;
-  --accent-ink: #fff9f4;
-  --header-surface: rgba(246, 245, 239, 0.9);
+  --accent: #af2524;
+  --accent-text: #af2524;
+  --accent-soft: #af252419;
+  --accent-ink: #ffffff;
+  --header-surface: rgba(246, 245, 239, 0.66);
   --header-border: rgba(24, 23, 19, 0.08);
   --header-shadow: 0 12px 30px rgba(24, 23, 19, 0.1);
   --header-cta-bg: #181713;
@@ -49,7 +55,7 @@
   --footer-ink: #15171d;
   --footer-muted: #55596a;
   --footer-line: rgba(21, 23, 29, 0.12);
-  --footer-accent: #c1531c;
+  --footer-accent: #af2524;
 }
 
 * {
@@ -99,7 +105,7 @@ button {
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 section {
   position: relative;
@@ -133,7 +139,10 @@ section {
   color: var(--accent-ink);
 }
 .btn-solid:hover {
-  background: color-mix(in srgb, var(--accent) 88%, white 12%);
+  background: color-mix(in srgb, var(--accent) 88%, black 12%);
+}
+.btn-solid:active {
+  background: color-mix(in srgb, var(--accent) 76%, black 24%);
 }
 .btn-ghost {
   background: transparent;
@@ -141,8 +150,8 @@ section {
   border-color: var(--line);
 }
 .btn-ghost:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-text);
+  color: var(--accent-text);
 }
 .btn:focus-visible,
 a:focus-visible,
@@ -151,7 +160,7 @@ summary:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-text);
   outline-offset: 3px;
 }
 .link-arrow {
@@ -168,8 +177,8 @@ textarea:focus-visible {
   transition: border-color 0.15s, color 0.15s;
 }
 .link-arrow:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent-text);
 }
 
 /* ---------- nav ---------- */
@@ -191,8 +200,8 @@ header {
   background: var(--header-surface);
   border: 1px solid var(--header-border);
   box-shadow: var(--header-shadow);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .brand {
@@ -202,11 +211,23 @@ header {
   text-decoration: none;
   color: var(--ink);
 }
-.brand span {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.01em;
+/* The header sits on the theme's surface, so it carries both logo colourways
+   and CSS shows the one that contrasts: white wordmark on dark, black on
+   light. The footer is always a light surface and uses the black one only. */
+.brand img {
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: none;
+}
+.brand .brand-logo-light {
+  display: none;
+}
+:root[data-theme="light"] .brand .brand-logo-dark {
+  display: none;
+}
+:root[data-theme="light"] .brand .brand-logo-light {
+  display: block;
 }
 .navlinks {
   display: flex;
@@ -226,7 +247,7 @@ header {
 }
 .navlinks a[aria-current="page"] {
   color: var(--ink);
-  border-color: var(--accent);
+  border-color: var(--accent-text);
 }
 .theme-toggle {
   display: flex;
@@ -244,8 +265,8 @@ header {
   transition: border-color 0.15s, color 0.15s;
 }
 .theme-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-text);
+  color: var(--accent-text);
 }
 .theme-toggle svg {
   width: 16px;
@@ -303,8 +324,8 @@ header {
     gap: 8px;
     padding: 8px 8px 8px 16px;
   }
-  .brand span {
-    font-size: 15px;
+  .brand img {
+    height: 21px;
   }
   .navlinks {
     gap: 8px;
@@ -351,16 +372,7 @@ header {
   border-bottom: none;
 }
 #mobileNav a[aria-current="page"] {
-  color: var(--accent);
-}
-
-/* ---------- nova mark ---------- */
-.mark {
-  flex: none;
-}
-.mark path,
-.mark circle {
-  stroke: var(--accent);
+  color: var(--accent-text);
 }
 
 /* ---------- hero ---------- */
@@ -514,7 +526,7 @@ header {
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .svc-card:hover {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   transform: translateY(-3px);
 }
 .grid-3 .svc-card,
@@ -524,7 +536,7 @@ header {
 .svc-num {
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .svc-card h3 {
   font-size: 19px;
@@ -586,7 +598,7 @@ header {
   content: "–";
   position: absolute;
   left: 0;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* ---------- process ledger ---------- */
@@ -612,7 +624,7 @@ header {
 }
 .ledger-num {
   font-family: var(--font-mono);
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 15px;
   font-variant-numeric: tabular-nums;
 }
@@ -654,7 +666,7 @@ header {
   align-items: flex-start;
 }
 .ai-item .dash {
-  color: var(--accent);
+  color: var(--accent-text);
   font-family: var(--font-mono);
   flex: none;
   margin-top: 2px;
@@ -695,7 +707,7 @@ header {
 }
 .trust-check {
   font-family: var(--font-mono);
-  color: var(--accent);
+  color: var(--accent-text);
   flex: none;
   width: 22px;
   height: 22px;
@@ -727,7 +739,7 @@ header {
 }
 .proof-item span {
   font-family: var(--font-mono);
-  color: var(--accent);
+  color: var(--accent-text);
   flex: none;
 }
 .proof-item p {
@@ -809,7 +821,7 @@ summary::-webkit-details-marker {
 }
 details[open] .plus {
   transform: rotate(45deg);
-  border-color: var(--accent);
+  border-color: var(--accent-text);
 }
 details p {
   margin-top: 14px;
@@ -897,7 +909,7 @@ form {
   border-top: 1px solid var(--line);
 }
 .contact-side a.mailto {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
   font-weight: 600;
 }
@@ -907,7 +919,7 @@ form {
 #formStatus {
   margin-top: 4px;
   font-size: 14px;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 #formStatus.error {
   color: #d64545;
@@ -969,18 +981,8 @@ footer {
   gap: 24px;
   flex-wrap: wrap;
 }
-.foot-wordmark .brand {
-  color: var(--footer-ink);
-  gap: 12px;
-}
-.foot-wordmark .brand span {
-  font-size: clamp(34px, 6vw, 64px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.foot-wordmark .mark {
-  width: clamp(28px, 4vw, 44px);
-  height: clamp(28px, 4vw, 44px);
+.foot-wordmark .brand img {
+  height: clamp(44px, 7vw, 76px);
 }
 .foot-wordmark p {
   color: var(--footer-muted);
@@ -1221,7 +1223,7 @@ footer {
   height: 12px;
   border-radius: 50%;
   border: 2px solid var(--line);
-  border-top-color: var(--accent);
+  border-top-color: var(--accent-text);
   animation: spin 1.2s linear infinite;
 }
 .viz-checklist-row {
@@ -1522,8 +1524,8 @@ footer {
   transition: border-color 0.15s ease, color 0.15s ease;
 }
 .portfolio-arrow:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-text);
+  color: var(--accent-text);
 }
 .portfolio-arrow.prev { left: clamp(4px, 2vw, 24px); }
 .portfolio-arrow.next { right: clamp(4px, 2vw, 24px); }
@@ -1583,7 +1585,7 @@ footer {
   display: flex;
   justify-content: center;
   gap: 6px;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .quote-text {
   margin: 26px auto 0;
@@ -1734,6 +1736,7 @@ footer {
   margin: 36px auto 0;
   max-width: 460px;
   display: flex;
+  flex-direction: row;
   background: var(--void-2);
   border: 1px solid var(--line);
   border-radius: 100px;

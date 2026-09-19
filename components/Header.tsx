@@ -14,26 +14,6 @@ const NAV_LINKS = [
   { href: "/faq", label: "FAQ" },
 ];
 
-function NovaMark({ size = 26 }: { size?: number }) {
-  return (
-    <svg
-      className="mark"
-      width={size}
-      height={size}
-      viewBox="0 0 26 26"
-      fill="none"
-      aria-hidden="true"
-    >
-      <circle cx="13" cy="13" r="2.4" fill="var(--accent)" />
-      <path
-        d="M13 1v6M13 19v6M1 13h6M19 13h6M4.5 4.5l4.2 4.2M17.3 17.3l4.2 4.2M21.5 4.5l-4.2 4.2M8.7 17.3l-4.2 4.2"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -44,8 +24,20 @@ export default function Header() {
     <header>
       <nav className="nav">
         <Link className="brand" href="/" onClick={() => setOpen(false)}>
-          <NovaMark />
-          <span>CoreNovaIT</span>
+          <img
+            className="brand-logo-dark"
+            src="/brand/logo-full-white.svg"
+            alt="CoreNovaIT"
+            width={158}
+            height={28}
+          />
+          <img
+            className="brand-logo-light"
+            src="/brand/logo-full-black.svg"
+            alt="CoreNovaIT"
+            width={158}
+            height={28}
+          />
         </Link>
 
         <div className="navlinks">

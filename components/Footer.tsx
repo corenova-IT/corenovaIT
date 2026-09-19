@@ -2,26 +2,6 @@ import Link from "next/link";
 
 const CONTACT_EMAIL = "contact@corenovait.com.au";
 
-function NovaMark({ size = 24 }: { size?: number }) {
-  return (
-    <svg
-      className="mark"
-      width={size}
-      height={size}
-      viewBox="0 0 26 26"
-      fill="none"
-      aria-hidden="true"
-    >
-      <circle cx="13" cy="13" r="2.4" fill="var(--accent)" />
-      <path
-        d="M13 1v6M13 19v6M1 13h6M19 13h6M4.5 4.5l4.2 4.2M17.3 17.3l4.2 4.2M21.5 4.5l-4.2 4.2M8.7 17.3l-4.2 4.2"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export default function Footer() {
   return (
     <footer>
@@ -59,8 +39,12 @@ export default function Footer() {
 
         <div className="foot-wordmark">
           <Link className="brand" href="/">
-            <NovaMark />
-            <span>CoreNovaIT</span>
+            <img
+              src="/brand/logo-full-black.svg"
+              alt="CoreNovaIT"
+              width={428}
+              height={76}
+            />
           </Link>
           <p>Build. Design. Grow. Automate. A white-label partner for agencies that don&apos;t build in-house.</p>
         </div>
