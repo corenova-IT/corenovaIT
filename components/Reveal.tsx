@@ -7,11 +7,17 @@ export default function Reveal({
   className = "",
   as: Tag = "div",
   delay = 0,
+  tabIndex,
+  role,
+  "aria-label": ariaLabel,
 }: {
   children: ReactNode;
   className?: string;
   as?: "div" | "article" | "li";
   delay?: number;
+  tabIndex?: number;
+  role?: string;
+  "aria-label"?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -37,6 +43,9 @@ export default function Reveal({
       ref={ref as never}
       className={`reveal ${visible ? "reveal-in" : ""} ${className}`.trim()}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      tabIndex={tabIndex}
+      role={role}
+      aria-label={ariaLabel}
     >
       {children}
     </Tag>
