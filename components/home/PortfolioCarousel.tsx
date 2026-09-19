@@ -4,12 +4,22 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
 
-const PROJECTS = [
+type Project = {
+  name: string;
+  category: string;
+  tint: string;
+  href: string;
+  // optional real preview; cards without one draw the CSS mockup instead
+  image?: string;
+};
+
+const PROJECTS: Project[] = [
   {
     name: "E-Commerce Storefront",
     category: "Shopify · Retail",
     tint: "#d63838",
     href: "/platforms",
+    image: "/portfolio/ecommerce-storefront-mockup.jpg",
   },
   {
     name: "SaaS Product Site",
@@ -42,6 +52,49 @@ function ChevronIcon({ dir }: { dir: "left" | "right" }) {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       {dir === "left" ? <path d="M15 18l-6-6 6-6" /> : <path d="M9 18l6-6-6-6" />}
     </svg>
+  );
+}
+
+function CardPreview({ project }: { project: Project }) {
+  const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // an image that already failed before hydration never fires onError
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
+
+  if (project.image && !failed) {
+    return (
+      <img
+        ref={imgRef}
+        className="portfolio-shot"
+        src={project.image}
+        alt={`${project.name} website preview`}
+        decoding="async"
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+
+  return (
+    <>
+      <div className="portfolio-scene" />
+      <div className="portfolio-device">
+        <div className="portfolio-device-bar">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="portfolio-device-body">
+          <i />
+          <i />
+          <i />
+          <div className="cta" />
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -103,20 +156,7 @@ export default function PortfolioCarousel() {
                 className={`portfolio-card${i === index ? " is-active" : ""}`}
                 style={{ ["--card-tint" as string]: p.tint }}
               >
-                <div className="portfolio-scene" />
-                <div className="portfolio-device">
-                  <div className="portfolio-device-bar">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                  <div className="portfolio-device-body">
-                    <i />
-                    <i />
-                    <i />
-                    <div className="cta" />
-                  </div>
-                </div>
+                <CardPreview project={p} />
                 <div className="portfolio-caption">
                   <div>
                     <h3>{p.name}</h3>
