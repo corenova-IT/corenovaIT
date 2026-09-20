@@ -667,6 +667,38 @@ header {
   border-color: var(--accent-text);
   color: var(--accent-text);
 }
+/* shown only when the browser blocks autoplay (or reduced motion is on) */
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(10, 10, 10, 0.28);
+  color: #181713;
+}
+.video-play-overlay span {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+.video-play-overlay:hover span {
+  transform: scale(1.08);
+}
+.video-play-overlay svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 3px;
+}
 .explainer-video-mute svg {
   width: 18px;
   height: 18px;

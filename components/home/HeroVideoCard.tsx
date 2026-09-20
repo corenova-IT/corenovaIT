@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { PlayOverlay, useAutoplay } from "@/components/videoAutoplay";
 
 /**
  * Single glossy, autoplaying video card that replaces the old hero
@@ -12,6 +13,7 @@ import { useRef, useState } from "react";
 export default function HeroVideoCard() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
+  const { blocked, start, onPlaying } = useAutoplay(videoRef);
 
   function toggleMute() {
     const video = videoRef.current;
@@ -25,13 +27,16 @@ export default function HeroVideoCard() {
       <video
         ref={videoRef}
         className="hero-video-el"
-        src="/Videos/explainer.mp4.mp4"
+        src="/Videos/explainer.mp4"
+        poster="/Videos/explainer-poster.jpg"
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
+        onPlaying={onPlaying}
       />
+      {blocked && <PlayOverlay onClick={start} />}
       <div className="hero-video-caption">
         <div>
           <h3>Who We Are</h3>

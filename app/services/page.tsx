@@ -61,7 +61,7 @@ export default function ServicesPage() {
             never have to stitch together three different vendors for one
             client.
           </p>
-          <ExplainerVideo src="/Videos/explainer.mp4.mp4" />
+          <ExplainerVideo src="/Videos/explainer.mp4" poster="/Videos/explainer-poster.jpg" />
 
           <div className="grid-3" style={{ marginTop: 40 }}>
             {SERVICES.map((s) => (

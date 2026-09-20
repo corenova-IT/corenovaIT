@@ -1,11 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { PlayOverlay, useAutoplay } from "@/components/videoAutoplay";
 
 /**
  * Autoplaying, looping explainer video with a speaker/mute toggle.
  * Starts muted (required for autoplay in every major browser) and lets
- * the visitor turn sound on with a click.
+ * the visitor turn sound on with a click. If the browser blocks autoplay,
+ * a play button appears instead of an empty box.
  */
 export default function ExplainerVideo({
   src,
@@ -16,6 +18,7 @@ export default function ExplainerVideo({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
+  const { blocked, start, onPlaying } = useAutoplay(videoRef);
 
   function toggleMute() {
     const video = videoRef.current;
@@ -35,8 +38,10 @@ export default function ExplainerVideo({
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
+        onPlaying={onPlaying}
       />
+      {blocked && <PlayOverlay onClick={start} />}
       <button
         type="button"
         className="explainer-video-mute"
