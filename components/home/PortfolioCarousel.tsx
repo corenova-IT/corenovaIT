@@ -34,7 +34,7 @@ const PROJECTS: Project[] = [
     category: "WordPress · White-Label",
     tint: "#7c5cff",
     href: "/partners",
-    image: "/portfolio/Agency%20Client%20Portal.jpg",
+    image: "/portfolio/Agency%20Client%20Portal.png",
   },
   {
     name: "AI Support Assistant",
