@@ -151,7 +151,13 @@ function PortfolioCardBody({
         setBlocked(true);
         return;
       }
-      video.play().then(() => setBlocked(false)).catch(() => setBlocked(true));
+      video
+        .play()
+        .then(() => setBlocked(false))
+        .catch((err) => {
+          // AbortError = we paused it again mid-start (clicked past the card)
+          if (err?.name !== "AbortError") setBlocked(true);
+        });
     } else {
       // leaving the card (or the screen) stops it and never carries sound over
       video.pause();
