@@ -50,6 +50,16 @@ export const metadata: Metadata = {
     "CoreNovaIT",
   ],
   authors: [{ name: SITE_NAME }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/manifest.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -87,6 +97,22 @@ export const metadata: Metadata = {
   },
 };
 
+const ORGANIZATION_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon-512.png`,
+  description: SITE_DESCRIPTION,
+};
+
+const WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -107,6 +133,19 @@ export default function RootLayout({
             __html:
               "(function(){try{var t=localStorage.getItem('corenovait-theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();",
           }}
+        />
+        {/* Structured data: helps Google associate the logo/brand with this
+            site in search results. Sitelinks (like the ChatGPT example) are
+            algorithmic and can't be forced directly — they build up over
+            time from search traffic, clear navigation, and Search Console
+            verification, but this is the on-page signal that supports it. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}
         />
         <GoogleAnalytics />
         <CursorTrail />
