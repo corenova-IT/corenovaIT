@@ -1857,6 +1857,21 @@ footer {
 .portfolio-card:hover .portfolio-caption-link {
   transform: scale(1.08) rotate(8deg);
 }
+.portfolio-caption-actions {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+.portfolio-mute {
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.portfolio-mute svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
 .portfolio-arrow {
   position: absolute;
   top: 50%;

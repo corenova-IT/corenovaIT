@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
+import { MutedIcon, PlayOverlay, UnmutedIcon } from "@/components/videoAutoplay";
 
 type Project = {
   name: string;
@@ -11,13 +12,16 @@ type Project = {
   href: string;
   // optional real preview; cards without one draw the CSS mockup instead
   image?: string;
+  // optional video; `image` doubles as its poster. Only downloads and plays
+  // while this card is the active, visible one.
+  video?: string;
 };
 
 const PROJECTS: Project[] = [
   {
     name: "Web Development",
     // non-breaking space before each "·" keeps a wrapped line from starting with one
-    category: "Shopify · Wix · Squarespace · WordPress · WooCommerce · Custom Development",
+    category: "Shopify · Wix · Squarespace · WordPress · WooCommerce · Custom Development",
     tint: "#d63838",
     href: "/platforms",
     image: "/portfolio/ecommerce-storefront-mockup.jpg",
@@ -44,11 +48,19 @@ const PROJECTS: Project[] = [
     image: "/portfolio/AI%20Support%20Assistant.jpg",
   },
   {
-    name: "Brand & Motion Refresh",
+    name: "Brand Identity and Design",
     category: "Graphic + Motion · Branding",
     tint: "#e0567a",
     href: "/services",
     image: "/portfolio/Brand%20%26%20Motion%20Refresh.png",
+  },
+  {
+    name: "Explainer Videos",
+    category: "Motion Graphics · Animated Explainers",
+    tint: "#22b8cf",
+    href: "/services",
+    image: "/portfolio/Explainer%20Videos.jpg",
+    video: "/Videos/cinematic-showcase.mp4",
   },
 ];
 
@@ -97,6 +109,100 @@ function CardPreview({ project }: { project: Project }) {
           <i />
           <i />
           <div className="cta" />
+        </div>
+      </div>
+    </>
+  );
+}
+
+function PortfolioCardBody({ project, active }: { project: Project; active: boolean }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [inView, setInView] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [blocked, setBlocked] = useState(false);
+  const wantsPlay = active && inView;
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting && entry.intersectionRatio >= 0.4),
+      { threshold: [0, 0.4, 0.7, 1] }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (wantsPlay) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setBlocked(true);
+        return;
+      }
+      video.play().then(() => setBlocked(false)).catch(() => setBlocked(true));
+    } else {
+      // leaving the card (or the screen) stops it and never carries sound over
+      video.pause();
+      video.muted = true;
+      setMuted(true);
+    }
+  }, [wantsPlay]);
+
+  function toggleMute() {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setMuted(video.muted);
+  }
+
+  function start() {
+    videoRef.current?.play().then(() => setBlocked(false)).catch(() => {});
+  }
+
+  return (
+    <>
+      {project.video ? (
+        <>
+          <video
+            ref={videoRef}
+            className="portfolio-shot"
+            src={project.video}
+            poster={project.image}
+            muted
+            loop
+            playsInline
+            preload="none"
+            aria-label={`${project.name} video preview`}
+            onPlaying={() => setBlocked(false)}
+          />
+          {blocked && <PlayOverlay onClick={start} />}
+        </>
+      ) : (
+        <CardPreview project={project} />
+      )}
+      <div className="portfolio-caption">
+        <div>
+          <h3>{project.name}</h3>
+          <span>{project.category}</span>
+        </div>
+        <div className="portfolio-caption-actions">
+          {project.video && (
+            <button
+              type="button"
+              className="portfolio-caption-link portfolio-mute"
+              onClick={toggleMute}
+              aria-label={muted ? "Unmute video" : "Mute video"}
+            >
+              {muted ? <MutedIcon /> : <UnmutedIcon />}
+            </button>
+          )}
+          <Link href={project.href} className="portfolio-caption-link" aria-label={`View ${project.name}`}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 17L17 7M7 7h10v10" />
+            </svg>
+          </Link>
         </div>
       </div>
     </>
@@ -161,18 +267,7 @@ export default function PortfolioCarousel() {
                 className={`portfolio-card${i === index ? " is-active" : ""}`}
                 style={{ ["--card-tint" as string]: p.tint }}
               >
-                <CardPreview project={p} />
-                <div className="portfolio-caption">
-                  <div>
-                    <h3>{p.name}</h3>
-                    <span>{p.category}</span>
-                  </div>
-                  <Link href={p.href} className="portfolio-caption-link" aria-label={`View ${p.name}`}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M7 17L17 7M7 7h10v10" />
-                    </svg>
-                  </Link>
-                </div>
+                <PortfolioCardBody project={p} active={i === index} />
               </div>
             ))}
           </div>
