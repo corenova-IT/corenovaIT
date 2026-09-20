@@ -1868,9 +1868,13 @@ footer {
   cursor: pointer;
 }
 .portfolio-mute svg {
-  width: 17px;
-  height: 17px;
+  width: 20px;
+  height: 20px;
   flex: none;
+}
+/* the arrow tilts on hover; a speaker tilting looks broken, so it only scales */
+.portfolio-card:hover .portfolio-caption-link.portfolio-mute {
+  transform: scale(1.08);
 }
 .portfolio-arrow {
   position: absolute;

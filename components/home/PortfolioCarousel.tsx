@@ -115,7 +115,17 @@ function CardPreview({ project }: { project: Project }) {
   );
 }
 
-function PortfolioCardBody({ project, active }: { project: Project; active: boolean }) {
+function PortfolioCardBody({
+  project,
+  active,
+  near,
+}: {
+  project: Project;
+  active: boolean;
+  // within a couple of cards of the active one: start buffering the video now
+  // so it's ready by the time the visitor arrives
+  near: boolean;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [inView, setInView] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -173,7 +183,7 @@ function PortfolioCardBody({ project, active }: { project: Project; active: bool
             muted
             loop
             playsInline
-            preload="none"
+            preload={near ? "auto" : "none"}
             aria-label={`${project.name} video preview`}
             onPlaying={() => setBlocked(false)}
           />
@@ -234,6 +244,12 @@ export default function PortfolioCarousel() {
     setIndex((i) => (i + dir + PROJECTS.length) % PROJECTS.length);
   }
 
+  // Card i is within two clicks ahead of the active one. Forward-only, so
+  // nothing is fetched at page load (the video card is last, five clicks away).
+  function isNear(i: number) {
+    return (i - index + PROJECTS.length) % PROJECTS.length <= 2;
+  }
+
   return (
     <section className="section-v2">
       <div className="wrap">
@@ -267,7 +283,7 @@ export default function PortfolioCarousel() {
                 className={`portfolio-card${i === index ? " is-active" : ""}`}
                 style={{ ["--card-tint" as string]: p.tint }}
               >
-                <PortfolioCardBody project={p} active={i === index} />
+                <PortfolioCardBody project={p} active={i === index} near={isNear(i)} />
               </div>
             ))}
           </div>

@@ -48,20 +48,22 @@ export function PlayOverlay({ onClick }: { onClick: () => void }) {
   );
 }
 
+// Solid speaker + a bold ×, both drawn inside the 24×24 box (the glyph spans
+// x 2–22, so it sits centred in its button and matches the arrow's weight).
 export function MutedIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-      <path d="M23 9l-6 6M17 9l6 6" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M11 5 6.5 9H3v6h3.5L11 19V5Z" fill="currentColor" />
+      <path d="M16 9.5l5 5M21 9.5l-5 5" />
     </svg>
   );
 }
 
 export function UnmutedIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-      <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M11 5 6.5 9H3v6h3.5L11 19V5Z" fill="currentColor" />
+      <path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" />
     </svg>
   );
 }
