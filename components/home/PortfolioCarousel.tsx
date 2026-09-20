@@ -27,6 +27,7 @@ const PROJECTS: Project[] = [
     category: "Custom Development · B2B",
     tint: "#4a90d9",
     href: "/platforms",
+    image: "/portfolio/Saas%20product%20Site.jpg",
   },
   {
     name: "Agency Client Portal",
