@@ -1,5 +1,5 @@
 import Link from "next/link";
-import HeroMockups from "@/components/home/HeroMockups";
+import HeroVideoCard from "@/components/home/HeroVideoCard";
 import ServicesShowcase from "@/components/home/ServicesShowcase";
 import PortfolioCarousel from "@/components/home/PortfolioCarousel";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
@@ -37,7 +37,7 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <HeroMockups />
+          <HeroVideoCard />
         </div>
       </section>
 

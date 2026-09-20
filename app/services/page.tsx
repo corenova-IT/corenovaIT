@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ExplainerVideo from "@/components/ExplainerVideo";
 
 export const metadata: Metadata = { title: "Services" };
 
@@ -60,6 +61,8 @@ export default function ServicesPage() {
             never have to stitch together three different vendors for one
             client.
           </p>
+          <ExplainerVideo src="/Videos/explainer.mp4.mp4" />
+
           <div className="grid-3" style={{ marginTop: 40 }}>
             {SERVICES.map((s) => (
               <article className="svc-card" key={s.num}>
