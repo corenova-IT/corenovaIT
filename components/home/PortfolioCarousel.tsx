@@ -34,18 +34,21 @@ const PROJECTS: Project[] = [
     category: "WordPress · White-Label",
     tint: "#7c5cff",
     href: "/partners",
+    image: "/portfolio/Agency%20Client%20Portal.jpg",
   },
   {
     name: "AI Support Assistant",
     category: "AI Integration · Automation",
     tint: "#2fbf8f",
     href: "/ai",
+    image: "/portfolio/AI%20Support%20Assistant.jpg",
   },
   {
     name: "Brand & Motion Refresh",
     category: "Graphic + Motion · Branding",
     tint: "#e0567a",
     href: "/services",
+    image: "/portfolio/Brand%20%26%20Motion%20Refresh.png",
   },
 ];
 
