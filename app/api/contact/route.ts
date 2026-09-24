@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { error: emailError } = await resend.emails.send({
-      from: "CoreNovaIT Contact Form <onboarding@resend.dev>",
+      from: "CoreNovaIT Contact Form <no-reply@corenovait.com.au>",
       to: NOTIFY_EMAIL,
       replyTo: trimmedEmail,
       subject: `New project inquiry — ${service || "General"} (${trimmedName})`,
