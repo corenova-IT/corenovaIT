@@ -6,11 +6,28 @@ const NOTIFY_EMAIL = "contact@corenovait.com.au";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
+ * Who gets the notification: CONTACT_TO_EMAILS (comma-separated, server-side
+ * only), or NOTIFY_EMAIL when it's unset or has no valid address. Entries that
+ * aren't email addresses are skipped, so one typo can't stop the whole send.
+ */
+function notifyRecipients(): string[] {
+  const listed = (process.env.CONTACT_TO_EMAILS ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const valid = listed.filter((s) => EMAIL_PATTERN.test(s));
+  if (valid.length < listed.length) {
+    console.warn(`Contact form: skipped ${listed.length - valid.length} entry/entries in CONTACT_TO_EMAILS that aren't email addresses.`);
+  }
+  return valid.length ? valid : [NOTIFY_EMAIL];
+}
+
+/**
  * Saves a contact form submission to Supabase and emails a notification
  * via Resend. Requires NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
  * and RESEND_API_KEY in the environment (see .env.example) — this route
  * only runs server-side, so the service-role key is never exposed to the
- * browser.
+ * browser. CONTACT_TO_EMAILS is optional (see notifyRecipients).
  */
 export async function POST(request: Request) {
   try {
@@ -61,7 +78,8 @@ export async function POST(request: Request) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { error: emailError } = await resend.emails.send({
       from: "CoreNovaIT Contact Form <no-reply@corenovait.com.au>",
-      to: NOTIFY_EMAIL,
+      to: notifyRecipients(),
+      // "Reply" in Gmail goes straight to the visitor
       replyTo: trimmedEmail,
       subject: `New project inquiry — ${service || "General"} (${trimmedName})`,
       text: [
