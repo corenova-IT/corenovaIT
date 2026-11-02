@@ -22,6 +22,9 @@
   --accent-text: #db4d4d;
   --accent-soft: #d6383824;
   --accent-ink: #ffffff;
+  /* form messages: success green and error red, each at least 9.8:1 / 5.9:1 on the dark surfaces */
+  --success-text: #4ade80;
+  --danger-text: #f07070;
   --header-surface: rgba(18, 20, 27, 0.58);
   --header-border: rgba(255, 255, 255, 0.08);
   --header-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
@@ -46,6 +49,9 @@
   --accent-text: #af2524;
   --accent-soft: #af252419;
   --accent-ink: #ffffff;
+  /* at least 5.7:1 / 5.2:1 on the light surfaces (cream, white and beige) */
+  --success-text: #166534;
+  --danger-text: #b42318;
   --header-surface: rgba(246, 245, 239, 0.66);
   --header-border: rgba(24, 23, 19, 0.08);
   --header-shadow: 0 12px 30px rgba(24, 23, 19, 0.1);
@@ -1076,10 +1082,20 @@ form {
 #formStatus {
   margin-top: 4px;
   font-size: 14px;
-  color: var(--accent-text);
+}
+#formStatus:empty {
+  display: none;
+}
+#formStatus.success {
+  color: var(--success-text);
 }
 #formStatus.error {
-  color: #d64545;
+  color: var(--danger-text);
+}
+.contact-side .direct {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* ---------- footer (always a light surface, per brand direction —

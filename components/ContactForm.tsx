@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from "react";
 
 const TO = "contact@corenovait.com.au";
+/** Both inboxes shown in the "Prefer to just email us?" panel. */
+const DIRECT_EMAILS = [TO, "contact@corenovait.com"];
 
 const SERVICES = [
   "Web Development",
@@ -147,8 +149,15 @@ export default function ContactForm({ initialEmail = "" }: { initialEmail?: stri
             Sends straight to our team and gets saved to our system — nothing
             opens your email app.
           </p>
-          {status === "success" && <p id="formStatus">{feedback}</p>}
-          {status === "error" && <p id="formStatus" className="error">{feedback}</p>}
+          {/* always in the page, so screen readers announce each new message; green for success, red for errors */}
+          <p
+            id="formStatus"
+            role="status"
+            aria-live="polite"
+            className={status === "success" ? "success" : status === "error" ? "error" : undefined}
+          >
+            {status === "success" || status === "error" ? feedback : ""}
+          </p>
         </div>
       </form>
 
@@ -156,9 +165,11 @@ export default function ContactForm({ initialEmail = "" }: { initialEmail?: stri
         <h3>Prefer to just email us?</h3>
         <p>Skip the form and write to us directly — same inbox either way.</p>
         <div className="direct">
-          <a className="mailto" href={`mailto:${TO}`}>
-            {TO}
-          </a>
+          {DIRECT_EMAILS.map((address) => (
+            <a key={address} className="mailto" href={`mailto:${address}`}>
+              {address}
+            </a>
+          ))}
         </div>
       </aside>
     </div>

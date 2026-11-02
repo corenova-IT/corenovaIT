@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const CONTACT_EMAIL = "contact@corenovait.com.au";
+const CONTACT_EMAILS = ["contact@corenovait.com.au", "contact@corenovait.com"];
 
 export default function Footer() {
   return (
@@ -31,7 +31,9 @@ export default function Footer() {
           <div className="foot-col">
             <h4>Connect</h4>
             <ul>
-              <li><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
+              {CONTACT_EMAILS.map((address) => (
+                <li key={address}><a href={`mailto:${address}`}>{address}</a></li>
+              ))}
               <li><Link href="/contact">Start a Conversation</Link></li>
             </ul>
           </div>
