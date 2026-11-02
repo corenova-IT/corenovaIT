@@ -22,6 +22,44 @@ function notifyRecipients(): string[] {
   return valid.length ? valid : [NOTIFY_EMAIL];
 }
 
+/** Error text from Resend can repeat addresses from the request; the log never shows them. */
+const redactEmails = (s: string) => s.replace(/[^\s@<>"',;:()]+@[^\s@<>"',;:()]+/g, "[email]");
+
+/**
+ * Emails the team about a saved submission. Never throws: a missing
+ * RESEND_API_KEY, an error returned by Resend, or a failed request is logged
+ * as "Contact form notification FAILED" with Resend's error name and message
+ * (no API key, no recipient addresses), and the caller carries on.
+ */
+async function sendNotification(mail: { replyTo: string; subject: string; text: string }): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  if (!apiKey) {
+    console.error("Contact form notification FAILED: RESEND_API_KEY is not set, so no email was sent. The submission is saved in Supabase.");
+    return false;
+  }
+  try {
+    const { error } = await new Resend(apiKey).emails.send({
+      from: "CoreNovaIT Contact Form <no-reply@corenovait.com.au>",
+      to: notifyRecipients(),
+      // "Reply" in Gmail goes straight to the visitor
+      replyTo: mail.replyTo,
+      subject: mail.subject,
+      text: mail.text,
+    });
+    if (error) {
+      console.error(
+        `Contact form notification FAILED: Resend returned ${error.name}: ${redactEmails(error.message)}. The submission is saved in Supabase.`
+      );
+      return false;
+    }
+    return true;
+  } catch (err) {
+    const what = err instanceof Error ? `${err.name}: ${redactEmails(err.message)}` : "unknown error";
+    console.error(`Contact form notification FAILED: the request to Resend failed (${what}). The submission is saved in Supabase.`);
+    return false;
+  }
+}
+
 /**
  * Saves a contact form submission to Supabase and emails a notification
  * via Resend. Requires NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
@@ -75,11 +113,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const { error: emailError } = await resend.emails.send({
-      from: "CoreNovaIT Contact Form <no-reply@corenovait.com.au>",
-      to: notifyRecipients(),
-      // "Reply" in Gmail goes straight to the visitor
+    // The submission is saved, so the visitor's part is done whatever happens
+    // to the notification; a failure is logged for us instead (see sendNotification).
+    await sendNotification({
       replyTo: trimmedEmail,
       subject: `New project inquiry — ${service || "General"} (${trimmedName})`,
       text: [
@@ -92,12 +128,6 @@ export async function POST(request: Request) {
         trimmedDetails,
       ].join("\n"),
     });
-
-    if (emailError) {
-      // The submission is already saved in Supabase — don't fail the
-      // whole request just because the notification email didn't send.
-      console.error("Contact form error (Resend):", emailError);
-    }
 
     return NextResponse.json({
       success: true,
